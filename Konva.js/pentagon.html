@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>pentagon Konva.js</title>
+	<meta charset="utf-8">
+	<script src="https://unpkg.com/konva@7.0.3/konva.min.js"></script>
+</head>
+<body>
+	<div id="container"></div>
+	<script>
+		// створення контейнера
+		var stage = new Konva.Stage( {
+			container : 'container', // ідентифікатор блоку, в якому розміщатиметься stage
+			width : 500,
+			height : 500
+		} ); // stage -> Konva.Stage
+		var layer = new Konva.Layer(); // новий слой
+		var pentagon = new Konva.RegularPolygon( {
+			x : stage.getWidth() / 2, // center
+			y : stage.getHeight() / 2, // center
+			sides : 5, // к-ть сторін
+			radius : 70,
+			fill : 'red',
+			stroke : 'black',
+			strokeWidth : 4,
+			shadowOffsetX : 20,
+			shadowOffsetY : 20,
+			shadowBlur : 40,
+			opacity : 0.5
+		} ); // створення багатокутника -> Konva.RegularPolygon
+		layer.add( pentagon ); // додавання фігури на слой
+		stage.add( layer ); // додавання слоя
+	</script>
+</body>
+</html>

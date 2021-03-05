@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Фільтри</title>
+	<meta charset="utf-8">
+	<script src="https://unpkg.com/konva@7.0.3/konva.min.js"></script>
+</head>
+<body>
+	<div id="container"></div>
+	<script>
+		// створення контейнера
+		var stage = new Konva.Stage( {
+			container : 'container', // ідентифікатор блоку, в якому розміщатиметься stage
+			width : 500,
+			height : 500
+		} ); // stage -> Konva.Stage
+		const imageSrc = "C:/Users/Natasha/Pictures/lion.png";
+		var imageObj = new Image();
+		imageObj.src = imageSrc;
+		var layer = new Konva.Layer(); // новий слой
+		var image = new Konva.Image( {
+  			image: imageObj
+		} ); // зображення	
+		image.width( 144 ); // ширина зображення
+		image.height( 139 ); // висота зображення
+		imageObj.onload = function() {
+	  		layer.add( image ); // додавання зображення
+		    stage.add( layer ); // додавання слоя
+	        image.filters( [ Konva.Filters.Invert ] ); // застосування фільтра
+       } // зчаливка зображення на сайт
+	</script>
+</body>
+</html>

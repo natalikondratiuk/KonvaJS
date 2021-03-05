@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>JSON Konva.js</title>
+	<meta charset="utf-8">
+	<script src="https://unpkg.com/konva@7.0.3/konva.min.js"></script>
+</head>
+<body>
+	<div id="container"></div>
+	<script>
+		// створення контейнера
+		var json = '{"attrs":{"width":578,"height":200},"className":"Stage","children":[{"attrs":{},"className":"Layer","children":[{"attrs":{"x":100,"y":100,"sides":6,"radius":70,"fill":"red","stroke":"black","strokeWidth":4},"className":"RegularPolygon"}]}]}';
+		var stage = Konva.Node.create(json, 'container');
+	</script>
+</body>
+</html>

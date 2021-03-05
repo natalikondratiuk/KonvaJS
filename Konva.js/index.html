@@ -1,0 +1,164 @@
+<html>
+
+<head>
+  <script src="https://rawgit.com/konvajs/konva/master/konva.js"></script>
+  <meta charset="utf-8">
+  <title>Konva Filters Demo</title>
+  <style>
+      body {
+  margin: 0;
+  padding: 0;
+}
+#container, #origin {
+  position: absolute;
+  top: 0px;
+}
+#origin {
+  left: 420px;
+}
+#origin img {
+  width: 400px;
+  height: 300px;
+}
+#controls {
+  position: absolute;
+  top: 350px;
+  left: 20px;
+}
+#config {
+  position: absolute;
+  top: 320px;
+  left: 20px;
+}
+  </style>
+</head>
+
+<body>
+  <div id="container"></div>
+
+  <div id="origin">
+    <img id="originImage" />
+  </div>
+
+  <div id="config"></div>
+
+  <div id="controls">
+    <div>
+      Alpha: <input id="alpha" type="range" min="0" max="1" step="0.05" value="0"> Red: <input id="red" type="range" min="0" max="256" step="1" value="150"> Green: <input id="green" type="range" min="0" max="256" step="1" value="150"> Blue: <input id="blue"
+        type="range" min="0" max="256" step="1" value="150">
+      <hr/> Brightness : <input id="brightness" type="range" min="-0.5" max=".5" step="0.01" r value="0"> Enhance : <input id="enhance" type="range" min="0" max="1" step="0.01" value="0"> Levels : <input id="levels" type="range" min="0" max="1" step="0.01"
+        value="1">
+      <hr/> Luminance : <input id="luminance" type="range" min="-0.5" max=".5" step="0.01" value="0"> Saturation : <input id="saturation" type="range" min="-1" max="1" step="0.01" value="0"> Value : <input id="value" type="range" min="-1" max="1" step="0.01"
+        value="0"> Hue : <input id="hue" type="range" min="0" max="359" step="1" value="0">
+      <hr/> blurRadius: <input id="blurRadius" type="range" min="0" max="20" step=".5" value="0"> noise : <input id="noise" type="range" min="0" max="2" step="0.01" value="0"> pixelSize : <input id="pixelSize" type="range" min=".1" max="10" step="0.1" value=".1">
+      <hr/>
+    </div>
+
+    <div>
+      <textarea id="configJson" cols="100" rows="5"></textarea>
+    </div>
+    <button onclick="useConfig()">Update</button>
+
+  </div>
+  <script>
+    const imageSrc = "http://i.imgur.com/wehQ1GV.jpg";
+
+var sliders = [
+  "red",
+  "green",
+  "blue",
+  "alpha",
+  "brightness",
+  "hue",
+  "saturation",
+  "luminance",
+  "value",
+  "noise",
+  "pixelSize",
+  "levels",
+  "enhance",
+  "blurRadius"
+];
+
+// set origin image
+document.getElementById("originImage").src = imageSrc;
+
+// define canvas and layer
+var stage = new Konva.Stage({
+  container: "container",
+  width: 400,
+  height: 300
+});
+var layer = new Konva.Layer();
+
+// Cross origin image
+var imageObj = new Image();
+imageObj.crossOrigin = "";
+imageObj.src = imageSrc;
+
+// Konva Image
+var image = new Konva.Image({
+  image: imageObj
+});
+image.position({
+  x: -0,
+  y: -0
+});
+image.width(400);
+image.height(300);
+image.draggable(true); // ?
+image.filters([
+  Konva.Filters.RGBA,
+  Konva.Filters.Brighten,
+  Konva.Filters.HSL,
+  Konva.Filters.HSV,
+  Konva.Filters.Noise,
+  Konva.Filters.Pixelate,
+  Konva.Filters.Posterize,
+  Konva.Filters.Enhance,
+  Konva.Filters.Blur
+]);
+
+function updateSliders() {
+  var config = {};
+  sliders.forEach(function(attr) {
+    var slider = document.getElementById(attr);
+    const update = () => {
+      //console.log(attr,slider.value);
+      image[attr](parseFloat(slider.value));
+      config[attr] = parseFloat(slider.value);
+      document.getElementById("configJson").innerHTML = JSON.stringify(config);
+      layer.batchDraw();
+      //console.log(image);
+    };
+    slider.oninput = update;
+    update();
+  });
+}
+
+imageObj.onload = function() {
+  // Important
+  image.cache();
+
+  // Adding elements
+  layer.add(image);
+  stage.add(layer);
+
+  // Sliders
+  updateSliders();
+};
+
+// !! not working ?  add better listener ?
+function useConfig() {
+  const config = JSON.parse(document.getElementById("configJson").innerHTML);
+  sliders.forEach(function(attr) {
+    console.log(config);
+    image[attr](config[attr]);
+    layer.batchDraw();
+  });
+}
+
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>anim Konva.js</title>
+	<meta charset="utf-8">
+	<script src="https://unpkg.com/konva@7.0.3/konva.min.js"></script>
+</head>
+<body>
+	<div id="container"></div>
+	<script>
+		// створення контейнера
+		var stage = new Konva.Stage( {
+			container : 'container', // ідентифікатор блоку, в якому розміщатиметься stage
+			width : 500,
+			height : 500
+		} ); // stage -> Konva.Stage
+		var layer = new Konva.Layer(); // новий слой
+		var hexagon = new Konva.RegularPolygon( {
+			x : stage.getWidth() / 2, // center
+			y : stage.getHeight() / 2, // center
+			sides : 6, // к-ть сторін
+			radius : 70,
+			fill : 'red',
+			stroke : 'black',
+			strokeWidth : 4
+		} ); // створення багатокутника -> Konva.RegularPolygon
+		layer.add( hexagon ); // додавання фігури на слой
+		stage.add( layer ); // додавання слоя
+		var amplitude = 100;
+		var period = 2000;
+		var centerX = stage.width() / 2;
+		var anim = new Konva.Animation( function ( frame ) {
+			hexagon.x(amplitude * Math.sin( ( frame.time * 2 * Math.PI ) / period ) + centerX); // hexagon.x
+		}, layer );
+		anim.start();
+	</script>
+</body>
+</html>

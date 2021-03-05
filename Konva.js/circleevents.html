@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Circle events Konva.js</title>
+	<meta charset="utf-8">
+	<script src="https://unpkg.com/konva@7.0.3/konva.min.js"></script>
+</head>
+<body>
+	<div id="container"></div>
+	<script>
+		// створення контейнера
+		var stage = new Konva.Stage( {
+			container : 'container', // ідентифікатор блоку, в якому розміщатиметься stage
+			width : 500,
+			height : 500
+		} ); // stage -> Konva.Stage
+		var layer = new Konva.Layer(); // новий слой
+		var circle = new Konva.Circle( {
+			x : stage.width() / 2, // center
+			y : stage.height() / 2, // center
+			radius : 70,
+			fill : 'red',
+			stroke : 'black',
+			strokeWidth : 4
+		} ); // створення фігури -> Konva.Circle
+		layer.add( circle ); // додавання кола на слой
+		stage.add( layer ); // додавання слоя
+		circle.on( 'mouseout touched', function () {
+			console.log( 'user input' );
+		} ); // mouseout touched -> події вводу 
+
+		circle.on( 'xChange', function () {
+			console.log( 'position change' );
+		} ); // xChange -> події зміни атрибутів
+
+		circle.on( 'dragend', function () {
+			console.log( 'drag stoped' );
+		} ); // dragend -> drag&drop
+	</script>
+</body>
+</html>
